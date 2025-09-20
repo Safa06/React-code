@@ -5,8 +5,29 @@ import ToDo from './Todo';
 import Actor from './Actor';
 import Singer from './Singer';
 import Counter from './Counter';
+import { Suspense } from 'react';
+import Friend from './Friend';
+
+// way - 1
+// const fetchUsers = fetch('https://jsonplaceholder.typicode.com/users')
+//   .then(res => res.json())
+
+
+// way - 2 ------- using it
+const fetchFriend = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  return res.json();
+    
+  }
+
+
+
 
 function App() {
+
+  const friendsPromise = fetchFriend();
+  
+
   const time = 50;
   const actors = ['bappa', 'omar', 'sunny', 'deol'];
 
@@ -52,8 +73,22 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a> }
       </div> */}
+
+
+
+      {/* // use component */}
+
+      <Suspense fallback={<h3>Friends are coming ... </h3>}>
+        <Friend friendsPromise ={friendsPromise}></Friend>
+      </Suspense>
+
+
+
     </>
   )
 }
+
+
+
 
 export default App
